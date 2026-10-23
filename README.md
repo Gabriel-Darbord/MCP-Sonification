@@ -12,12 +12,13 @@ This project is developed on Pharo 14, the only version it has been tested on.
 
 ## Installation
 
-Load the project into a Pharo image with Metacello (it loads SoundBank and Scsynth too):
+Load the project into a Pharo image with Metacello (it loads SoundBank and Scsynth too). `onConflictUseLoaded` keeps the MCP server you already loaded, from whatever repository:
 
 ```smalltalk
 Metacello new
   githubUser: 'Gabriel-Darbord' project: 'MCP-Sonification' commitish: 'main' path: 'src';
   baseline: 'MCPSonification';
+  onConflictUseLoaded;
   load
 ```
 

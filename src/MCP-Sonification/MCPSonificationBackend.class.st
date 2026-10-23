@@ -67,12 +67,12 @@ MCPSonificationBackend >> announceStartOf: aToolName record: aRecord [
 
 { #category : 'private - sounds' }
 MCPSonificationBackend >> announceWaitingFor: aRecord [
-	"Post a waiting event if the call is still running after the tracker's waiting delay. Above user priority, so it fires while the image is busy with that call."
+	"Post a waiting event if the call is still running after the tracker's waiting delay. At I/O priority, so it fires while the image is busy with that call: the MCP server handles calls at low I/O priority."
 
 	[
 		tracker waitingDelay wait.
 		(tracker isRunning: aRecord) ifTrue: [ self sonify: [ self postToolNamed: aRecord toolName phases: #( 'waiting' ) ] ] ]
-		forkAt: Processor userInterruptPriority
+		forkAt: Processor highIOPriority
 		named: 'Sonification waiting timer'
 ]
 
