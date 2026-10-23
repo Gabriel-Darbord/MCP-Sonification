@@ -1,0 +1,100 @@
+{
+	'name' : 'instruments',
+	'sets' : {
+		'edit' : [ 'method_compile', 'method_rewrite', 'method_selector_update', 'method_protocol_update',
+			'class_comment_update', 'class_layout_update', 'class_name_update', 'class_package_update',
+			'class_shared_pools_update', 'class_shared_variables_update', 'class_side_traits_update',
+			'class_slot_add', 'class_slot_name_update', 'class_slot_pull_up', 'class_slot_push_down',
+			'class_slots_update', 'class_superclass_update', 'class_traits_update' ],
+		'remove' : [ 'class_remove', 'method_remove', 'class_slot_remove' ],
+		'get' : [ 'class_get', 'method_get', 'tool_get', 'history_entry_list', 'history_file_list',
+			'repository_change_list', 'repository_identity_verify' ],
+		'search' : [ 'class_search', 'method_search', 'method_source_search', 'method_reference_search',
+			'method_equivalent_search', 'package_search', 'tool_search', 'repository_search' ],
+		'git-out' : [ 'repository_commit', 'repository_export' ],
+		'repository-setup' : [ 'repository_attach', 'repository_create', 'repository_head_adopt', 'repository_update' ],
+		'debug' : [ 'debug_search', 'debug_watch' ]
+	},
+	'sounds' : {
+		'step' : {
+			'sequence' : [ 'marimba/c4', 'marimba/d4', 'marimba/e4', 'marimba/g4',
+				'marimba/a4', 'marimba/g4', 'marimba/e4', 'marimba/d4' ],
+			'pitch' : [ -4, 4 ],
+			'volume' : [ -12, -9 ]
+		},
+		'cadence' : {
+			'layer' : [ 'bell/c5', { 'sound' : 'bell/g5', 'delay' : 90 }, { 'sound' : 'bell/c6', 'delay' : 180 } ],
+			'volume' : -8
+		},
+		'late' : {
+			'layer' : [ 'bell/c6', { 'sound' : 'bell/g5', 'delay' : 150 },
+				{ 'sound' : 'bell/e5', 'delay' : 300 }, { 'sound' : 'bell/c5', 'delay' : 450 } ],
+			'volume' : -8
+		}
+	},
+	'events' : {
+		'edit.start' : { 'every' : 8, 'counter' : 'edits', 'then' : { 'use' : 'cadence' }, 'otherwise' : { 'use' : 'step' } },
+		'method_compile.success' : {
+			'random' : [ 'pluck/g5', 'pluck/a5', 'pluck/c6' ],
+			'pitch' : [ -5, 5 ],
+			'volume' : -16,
+			'delay' : [ 30, 60 ]
+		},
+		'class_create.success' : { 'layer' : [ 'marimba/c5', { 'sound' : 'bell/c6', 'delay' : 60 } ], 'volume' : -8 },
+		'remove.success' : { 'layer' : [ 'marimba/c4', { 'sound' : 'marimba/c3', 'delay' : 90 } ], 'volume' : -9 },
+		'get.success' : {
+			'random' : [ 'pluck/c5', 'pluck/d5', 'pluck/e5', 'pluck/g5', 'pluck/a5' ],
+			'avoidRepeat' : 2,
+			'pitch' : [ -6, 6 ],
+			'volume' : [ -18, -14 ]
+		},
+		'search.success' : {
+			'layer' : [ 'pluck/c5', { 'sound' : 'pluck/e5', 'delay' : 60 }, { 'sound' : 'pluck/g5', 'delay' : 120 } ],
+			'volume' : -15
+		},
+		'image_evaluate.start' : { 'sound' : 'marimba/d4', 'volume' : -10 },
+		'image_evaluate.slow' : { 'sound' : 'bell/a4', 'volume' : -9 },
+		'tests.start' : { 'sound' : 'marimba/c3', 'volume' : -6 },
+		'tests.waiting' : nil,
+		'tests.success' : {
+			'layer' : [ 'bell/c5', { 'sound' : 'bell/e5', 'delay' : 90 }, { 'sound' : 'bell/g5', 'delay' : 180 },
+				{ 'sound' : 'bell/c6', 'delay' : 270 } ],
+			'volume' : -6
+		},
+		'tests.failure' : {
+			'layer' : [ 'bell/a4', { 'sound' : 'bell/c5', 'delay' : 120 }, { 'sound' : 'bell/e5', 'delay' : 240 } ],
+			'volume' : -6
+		},
+		'tests.recovered' : {
+			'layer' : [ 'bell/a4', { 'sound' : 'bell/c5', 'delay' : 90 }, { 'sound' : 'bell/e5', 'delay' : 180 },
+				{ 'sound' : 'bell/g5', 'delay' : 270 }, { 'sound' : 'bell/c6', 'delay' : 380 } ],
+			'volume' : -6
+		},
+		'git-out.success' : { 'layer' : [ 'bell/c5', 'bell/g5', { 'sound' : 'bell/c6', 'delay' : 150 } ], 'volume' : -6 },
+		'*.waiting' : { 'layer' : [ 'pluck/c4', { 'sound' : 'pluck/g4', 'delay' : 120 } ], 'volume' : -14 },
+		'*.repeated-failure' : {
+			'layer' : [ 'low/b2', 'low/f3', { 'sound' : 'low/c3', 'delay' : 120 } ],
+			'pitch' : [ -10, 10 ],
+			'volume' : -3
+		},
+		'*.timeout' : { 'use' : 'late' },
+		'*.very-slow' : { 'use' : 'late' },
+		'*.error' : { 'layer' : [ 'low/b2', 'low/f3' ], 'pitch' : [ -10, 10 ], 'volume' : -4 },
+		'history_entry_revert.success' : {
+			'layer' : [ 'pluck/c5', { 'sound' : 'pluck/g4', 'delay' : 50 }, { 'sound' : 'pluck/e4', 'delay' : 100 },
+				{ 'sound' : 'pluck/c4', 'delay' : 150 } ],
+			'volume' : -12
+		},
+		'history_entry_apply.success' : {
+			'layer' : [ 'pluck/c4', { 'sound' : 'pluck/e4', 'delay' : 50 }, { 'sound' : 'pluck/g4', 'delay' : 100 },
+				{ 'sound' : 'pluck/c5', 'delay' : 150 } ],
+			'volume' : -12
+		},
+		'debug.start' : { 'layer' : [ 'marimba/a4', { 'sound' : 'marimba/a4', 'delay' : 130 } ], 'volume' : -10 },
+		'critique_run.success' : { 'sound' : 'bell/g5', 'volume' : -10 },
+		'screenshot_capture.success' : { 'layer' : [ 'pluck/c6', 'pluck/g5' ], 'volume' : -12 },
+		'repository_change_discard.success' : { 'layer' : [ 'low/c3', 'marimba/c3' ], 'volume' : -6 },
+		'repository_reload.success' : { 'layer' : [ 'pluck/g4', { 'sound' : 'pluck/c5', 'delay' : 90 } ], 'volume' : -12 },
+		'repository-setup.success' : { 'layer' : [ 'marimba/c4', 'marimba/e4', 'marimba/g4' ], 'volume' : -10 }
+	}
+}
